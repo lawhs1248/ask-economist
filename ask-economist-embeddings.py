@@ -38,3 +38,4 @@ vectordb = Chroma.from_documents(
     persist_directory="./chroma_store/"
 )
 vectordb.persist()
+vectordb = None
