@@ -31,7 +31,7 @@ def create_agent_chain():
     return chain
 
 def get_llm_response(query):
-    vectordb = Chroma(persist_directory="./chroma_store",
+    vectordb = Chroma(persist_directory="./chroma_store/vectordb",
                       embedding_function=embeddings)
     chain = create_agent_chain()
     matching_docs = vectordb.similarity_search(query)
