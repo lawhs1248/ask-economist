@@ -33,7 +33,7 @@ def create_agent_chain():
 def get_llm_response(query):
     dir = "./chroma_store"
     client = chromadb.Client()
-    vectordb = client.get_collection(name="ca4917d6-d177-4b8e-9d73-5bf0df70e534")
+    vectordb = client.get_collection()
     chain = create_agent_chain()
     matching_docs = vectordb.similarity_search(query)
     answer = chain.run(input_documents=matching_docs, question=query)
