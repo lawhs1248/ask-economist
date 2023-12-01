@@ -31,8 +31,7 @@ def create_agent_chain():
     return chain
 
 def get_llm_response(query):
-    dir = "./chroma_store/"
-    vectordb = dir.get()
+    vectordb = "./chroma_store/"
     chain = create_agent_chain()
     matching_docs = vectordb.similarity_search(query)
     answer = chain.run(input_documents=matching_docs, question=query)
