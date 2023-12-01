@@ -35,8 +35,7 @@ def create_agent_chain():
     return chain
 
 def get_llm_response(query):
-    retrieved_vectordb =  vectordb.as_retriever()
-    matching_docs = retrieved_vectordb.similarity_search(query)
+    matching_docs = vectordb.similarity_search(query)
     answer = chain.run(input_documents=matching_docs, question=query)
     return answer
 
