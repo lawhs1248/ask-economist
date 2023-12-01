@@ -19,6 +19,8 @@ os.environ["OPENAI_API_VERSION"] = "2023-12-01-preview"
 os.environ["OPENAI_API_BASE"] = openai_endpoint
 os.environ["OPENAI_API_KEY"] = openai_token    
 
+embeddings = AzureOpenAIEmbeddings(deployment="text-embedding-ada-002",chunk_size=1)
+
 def create_agent_chain():
     llm = AzureChatOpenAI(temperature=0, 
         verbose=True, 
@@ -28,7 +30,8 @@ def create_agent_chain():
     return chain
 
 def get_llm_response(query):
-    vectordb = Chroma(persist_directory="./chroma_store")
+    vectordb = Chroma(persist_directory="./chroma_store",
+                      embedding_function=embeddings)
     chain = create_agent_chain()
     matching_docs = vectordb.similarity_search(query)
     answer = chain.run(input_documents=matching_docs, question=query)
