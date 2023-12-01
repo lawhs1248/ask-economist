@@ -32,7 +32,7 @@ def create_agent_chain():
 
 def get_llm_response(query):
     dir = "./chroma_store/"
-    client = chromadb.Client(is_persistent=True, persist_directory= dir)
+    client = chromadb.Client(persist_directory= dir)
     vectordb = client.get_collection()
     vectordb.get() 
     chain = create_agent_chain()
