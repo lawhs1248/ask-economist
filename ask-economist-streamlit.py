@@ -2,6 +2,7 @@ import os
 import streamlit as st 
 from langchain.chains.question_answering import load_qa_chain
 from langchain.chat_models import AzureChatOpenAI
+from langchain.vectorstores import Chroma
 
 
 openai_token = os.environ.get("OPENAI_TOKEN", "")
@@ -12,10 +13,6 @@ os.environ["OPENAI_API_VERSION"] = "2023-12-01-preview"
 os.environ["OPENAI_API_BASE"] = openai_endpoint
 os.environ["OPENAI_API_KEY"] = openai_token    
 
-class VectorDatabase:
-    def __init__(self, path):
-        self.path = path
-
 def create_agent_chain():
     llm = AzureChatOpenAI(temperature=0, 
         verbose=True, 
@@ -25,7 +22,7 @@ def create_agent_chain():
     return chain
 
 def get_llm_response(query):
-    vectordb = VectorDatabase("./chroma_store")
+    vectordb = Chroma(persist_directory="./chroma_store")
     chain = create_agent_chain()
     matching_docs = vectordb.similarity_search(query)
     answer = chain.run(input_documents=matching_docs, question=query)
