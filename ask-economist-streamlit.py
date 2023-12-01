@@ -1,5 +1,11 @@
 import os
+
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+import sqlite3
 import streamlit as st 
+
 from langchain.chains.question_answering import load_qa_chain
 from langchain.chat_models import AzureChatOpenAI
 from langchain.vectorstores import Chroma
