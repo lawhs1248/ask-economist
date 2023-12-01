@@ -8,7 +8,7 @@ import streamlit as st
 
 from langchain.chains.question_answering import load_qa_chain
 from langchain.chat_models import AzureChatOpenAI
-from langchain.vectorstores import Chroma
+import chromadb
 from langchain.embeddings import AzureOpenAIEmbeddings
 
 
@@ -31,8 +31,8 @@ def create_agent_chain():
     return chain
 
 def get_llm_response(query):
-    vectordb = Chroma(persist_directory="./chroma_store/vectordb",
-                      embedding_function=embeddings)
+    dir = "./chroma_store/"
+    vectordb = dir.get()
     chain = create_agent_chain()
     matching_docs = vectordb.similarity_search(query)
     answer = chain.run(input_documents=matching_docs, question=query)
