@@ -9,6 +9,7 @@ import streamlit as st
 from langchain.chains.question_answering import load_qa_chain
 from langchain.chat_models import AzureChatOpenAI
 import chromadb
+from langchain.vectorstores import Chroma
 from langchain.embeddings import AzureOpenAIEmbeddings
 
 
@@ -22,20 +23,20 @@ os.environ["OPENAI_API_KEY"] = openai_token
 
 embeddings = AzureOpenAIEmbeddings(deployment="text-embedding-ada-002",chunk_size=1)
 
+dir="./chroma_store/"
+vectordb = Chroma(persist_directory=dir,embedding_function=embeddings)
+
 def create_agent_chain():
     llm = AzureChatOpenAI(temperature=0, 
         verbose=True, 
         deployment_name="gpt-4",
     )
-    chain = load_qa_chain(llm, chain_type="stuff")
+    chain = load_qa_chain(llm, chain_type="stuff", retriever=vectordb.as_retriever())
     return chain
 
 def get_llm_response(query):
-    dir = "./chroma_store"
-    client = chromadb.Client()
-    vectordb = client.get_collection()
-    chain = create_agent_chain()
-    matching_docs = vectordb.similarity_search(query)
+    retrieved_vectordb =  vectordb.as_retriever()
+    matching_docs = retrieved_vectordb.similarity_search(query)
     answer = chain.run(input_documents=matching_docs, question=query)
     return answer
 
