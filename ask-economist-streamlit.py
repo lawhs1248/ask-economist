@@ -12,6 +12,13 @@ os.environ["OPENAI_API_VERSION"] = "2023-12-01-preview"
 os.environ["OPENAI_API_BASE"] = openai_endpoint
 os.environ["OPENAI_API_KEY"] = openai_token    
 
+class VectorDatabase:
+    def __init__(self, path):
+        self.path = path
+
+    def similarity_search(self, query):
+        # Your implementation for similarity search here
+        pass
 
 def create_agent_chain():
     llm = AzureChatOpenAI(temperature=0, 
