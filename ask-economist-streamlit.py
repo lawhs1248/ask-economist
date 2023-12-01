@@ -31,7 +31,7 @@ def create_agent_chain():
         verbose=True, 
         deployment_name="gpt-4",
     )
-    chain = load_qa_chain(llm, chain_type="stuff", retriever=vectordb.as_retriever())
+    chain = load_qa_chain(llm, chain_type="stuff")
     return chain
 
 def get_llm_response(query):
