@@ -19,7 +19,7 @@ openai_endpoint = "https://mti-nerve-openai-us-east-2.openai.azure.com/"
 os.environ["OPENAI_API_TYPE"] = "azure"
 os.environ["OPENAI_API_VERSION"] = "2023-12-01-preview"
 os.environ["OPENAI_API_BASE"] = openai_endpoint
-os.environ["OPENAI_API_KEY"] = openai_token    
+os.environ["OPENAI_API_KEY"] = openai_token
 
 embeddings = AzureOpenAIEmbeddings(deployment="text-embedding-ada-002",chunk_size=1)
 
