@@ -9,6 +9,7 @@ import streamlit as st
 from langchain.chains.question_answering import load_qa_chain
 from langchain.chat_models import AzureChatOpenAI
 from langchain.vectorstores import Chroma
+from langchain.embeddings import AzureOpenAIEmbeddings
 
 
 openai_token = os.environ.get("OPENAI_TOKEN", "")
