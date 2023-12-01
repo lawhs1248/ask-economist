@@ -35,6 +35,6 @@ else:
 vectordb = Chroma.from_documents(
     documents=chunked_documents,
     embedding=embeddings,
-    persist_directory="./chroma_store"
+    persist_directory="./chroma_store/"
 )
 vectordb.persist()
