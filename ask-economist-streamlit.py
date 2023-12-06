@@ -28,30 +28,18 @@ embeddings = AzureOpenAIEmbeddings(deployment="text-embedding-ada-002",chunk_siz
 dir="./chroma_store/"
 vectordb = Chroma(persist_directory=dir,embedding_function=embeddings)
 
-metadata_field_info = [
-    AttributeInfo(
-        name="source",
-        description="The answer which is from, the pdf documents name, e.g. `BA_1Q2023.pdf`",
-        type="string",
-    )
-]
-
 def create_agent_chain():
     llm = AzureChatOpenAI(temperature=0, 
         verbose=True, 
         deployment_name="gpt-4",
     )
-    chain = ConversationalRetrievalChain.from_llm(
-        llm, vectordb.as_retriever()
-        )
-    #chain = load_qa_chain(llm, chain_type="stuff")
+    chain = load_qa_chain(llm, chain_type="stuff")
     return chain
 
-def get_llm_response(query, source_documents):
+def get_llm_response(query):
     matching_docs = vectordb.similarity_search(query)
-    matching_source = vectordb.metadata['source'](source_documents)
     chain = create_agent_chain()
-    answer = chain.run(input_documents=matching_docs, question=query, source=matching_source)
+    answer = chain.run(input_documents=matching_docs, question=query)
     return answer
 
 
@@ -64,5 +52,5 @@ form_input = st.text_input('Enter Query')
 submit = st.button("Generate")
 
 if submit:
-    st.write(get_llm_response(form_input, form_input))
+    st.write(get_llm_response(form_input))
 
