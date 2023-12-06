@@ -37,7 +37,7 @@ chain = RetrievalQA.from_chain_type(
     llm,
     retriever=vectordb.as_retriever(),
     return_source_documents=True,
-    chain_type="map_reduce"
+    chain_type="stuff"
 )
 
 def generate_response(prompt, conversation_chain):
@@ -61,8 +61,7 @@ def chat_click(user_chat_input, conversation_chain):
         st.session_state['answers'].append(answer)
 
 
-st.title("MTI Speech Generator")
-st.caption("Your personal assistant to generate a first cut of speech draft, enriched with speeches on MTI website")
+st.title("Ask Economist")
 # container for text box
 container = st.container()
 # container for chat history
@@ -70,8 +69,8 @@ response_container = st.container()
 
 with container:
     with st.form(key='my_form', clear_on_submit=True):
-        st.subheader("Question: ")
-        user_input = st.text_area("Question:", key='input', height=100, label_visibility="hidden")
+        st.subheader("Entry Query")
+        user_input = st.text_area("Entry Query", key='input', height=100, label_visibility="hidden")
         submit_button = st.form_submit_button(label='Send')
 
     
@@ -85,7 +84,7 @@ if 'answers' in st.session_state:
             cols = st.columns(2)
             for i in range(len(st.session_state['answers'])):
                 with cols[0]:
-                    st.subheader("Question: ")
+                    st.subheader("Query: ")
                     st.write(st.session_state['past'][i])
                     st.subheader("Answer: ")
                     st.write(st.session_state['answers'][i])
