@@ -61,8 +61,9 @@ st.set_page_config(page_title="Ask Economist", page_icon=":robot:")
 st.header("Ask Economist")
 
 form_input = st.text_input('Enter Query')
+source_output = st.session_state("Source")
 submit = st.button("Generate")
 
 if submit:
-    st.write(get_llm_response(form_input))
+    st.write(get_llm_response(form_input, source_output))
 
