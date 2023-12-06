@@ -32,6 +32,8 @@ chunked_documents = text_splitter.split_documents(documents)
 client = chromadb.Client()
 if client.list_collections():
     consent_collection = client.get_or_create_collection(name="ask-economist-collection")
+    for doc in chunked_documents:
+        consent_collection.add(metadatas=doc.metadata)
 else:
     print("Collection already exists")
 vectordb = Chroma.from_documents(
