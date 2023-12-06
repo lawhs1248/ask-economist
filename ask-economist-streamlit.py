@@ -38,10 +38,10 @@ def create_agent_chain():
     #chain = load_qa_chain(llm, chain_type="stuff")
     return chain
 
-def get_llm_response(query):
+def get_llm_response(query, source_documents):
     matching_docs = vectordb.similarity_search(query)
     chain = create_agent_chain()
-    answer = chain.run(input_documents=matching_docs, question=query)
+    answer = chain.run(input_documents=matching_docs, question=query, source=source_documents)
     return answer
 
 
