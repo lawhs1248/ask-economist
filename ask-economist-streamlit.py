@@ -71,7 +71,7 @@ with container:
 
     
     if submit_button:
-        st.write(get_llm_response(user_input)
+        st.write(get_llm_response(user_input))
 
 # The 'message' function is defined to display the messages in the conversation history.
 if 'answers' in st.session_state:
