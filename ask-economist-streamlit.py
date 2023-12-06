@@ -64,5 +64,5 @@ form_input = st.text_input('Enter Query')
 submit = st.button("Generate")
 
 if submit:
-    st.write(get_llm_response(form_input))
+    st.write(get_llm_response(form_input, form_input))
 
