@@ -42,7 +42,7 @@ def create_agent_chain():
         deployment_name="gpt-4",
     )
     chain = ConversationalRetrievalChain.from_llm(
-        llm, vectordb.as_retriever(), return_source_documents=True
+        llm, vectordb.as_retriever()
         )
     #chain = load_qa_chain(llm, chain_type="stuff")
     return chain
@@ -51,7 +51,7 @@ def get_llm_response(query, source_documents):
     matching_docs = vectordb.similarity_search(query)
     matching_source = vectordb.metadata['source'](source_documents)
     chain = create_agent_chain()
-    answer = chain.run(input_documents=matching_docs, question=query, source=source_documents)
+    answer = chain.run(input_documents=matching_docs, question=query, source=matching_source)
     return answer
 
 
@@ -61,9 +61,8 @@ st.set_page_config(page_title="Ask Economist", page_icon=":robot:")
 st.header("Ask Economist")
 
 form_input = st.text_input('Enter Query')
-source_output = st.session_state("Source")
 submit = st.button("Generate")
 
 if submit:
-    st.write(get_llm_response(form_input, source_output))
+    st.write(get_llm_response(form_input))
 
