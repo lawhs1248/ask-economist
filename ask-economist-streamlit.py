@@ -12,7 +12,6 @@ import chromadb
 from langchain.vectorstores import Chroma
 from langchain.embeddings import AzureOpenAIEmbeddings
 from langchain.chains import ConversationalRetrievalChain
-from prompt import PROMPT
 
 
 openai_token = os.environ.get("OPENAI_TOKEN", "")
