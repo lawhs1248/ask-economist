@@ -1,7 +1,7 @@
 import os
 
 from langchain.document_loaders import PyPDFLoader
-from langchain.text_splitter import CharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.chains import RetrievalQAWithSourcesChain
 from langchain.chat_models import AzureChatOpenAI
@@ -27,13 +27,16 @@ for file in os.listdir(pdf_folder_path):
         pdf_path = os.path.join(pdf_folder_path, file)
         loader = PyPDFLoader(pdf_path)
         documents.extend(loader.load())
-text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=10)
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=10)
 chunked_documents = text_splitter.split_documents(documents)
+#data = [set((text.metadata["source"], embedding) for text, embedding in zip(chunked_documents, embeddings))]
+
 client = chromadb.Client()
 if client.list_collections():
     consent_collection = client.get_or_create_collection(name="ask-economist-collection")
 else:
     print("Collection already exists")
+    
 vectordb = Chroma.from_documents(
     documents=chunked_documents,
     embedding=embeddings,
