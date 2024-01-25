@@ -114,6 +114,6 @@ if 'answers' in st.session_state:
                             st.write(index+1, source_name)
                             st.download_button(label="Download PDF",
                                 data="github_url + source_name.replace(' ', '%20') + '.pdf'",
-                                mime='file/pdf')
+                                mime='application/octet-stream')
                                 
         # send_survey_result(st.session_state.session_id, st.session_state.nerve_logger, st.session_state['credentials_correct'], user_input)
