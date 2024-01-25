@@ -112,11 +112,11 @@ if 'answers' in st.session_state:
                             source_name = source_parts[-1]  # Take the last part after backslash
                             github_url = "input/" + source_name.replace(' ', '%20') + ".pdf"
                             st.write(index+1, source_name)
-                            with open(github_url, "wb") as f:
+                            with open(github_url, "rb") as f:
                                 pdf_file = f.read()
-                            st.download_button(label="Download PDF",
-                                data=pdf_file,
-                                file_name=github_url,
-                                mime='application/octet-stream')
+                                st.download_button(label="Download PDF",
+                                    data=pdf_file,
+                                    file_name=github_url,
+                                    mime='application/octet-stream')
                                 
         # send_survey_result(st.session_state.session_id, st.session_state.nerve_logger, st.session_state['credentials_correct'], user_input)
